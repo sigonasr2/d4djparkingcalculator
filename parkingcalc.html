@@ -92,6 +92,9 @@
 		
 		function TryRehearsal() {
 			var voltage=0
+			if ((end-start)%2!==0) {
+				return undefined
+			}
 			if (end-start>(10+Math.round(bonus*10))+10) {
 				var gain=(10+Math.round(bonus*10))
 				start+=gain
@@ -110,9 +113,6 @@
 				document.getElementById("console").value+="Step "+(step++)+") Use Rehearsal w/0% team. EP +"+gain+". Remaining:"+(end-start)+" EP \n"
 				return false
 			} else {
-				if ((end-start)%2!==0) {
-					return undefined
-				}
 				var gain=end-start
 				start+=gain
 				document.getElementById("console").value+="Step "+(step++)+") Use Rehearsal w/"+((gain-10)*10)+"% team. EP +"+(gain)+". Remaining:"+(end-start)+" EP \n"
