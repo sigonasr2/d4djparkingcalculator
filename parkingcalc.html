@@ -19,6 +19,8 @@
 		
 		var interval = (type=="Medley")?15000:10000
 		
+		maxscore=Math.floor(maxscore/interval)*interval
+		
 		function EPCalc(voltage,score,bonus) {
 			if (voltage>0) {
 				switch (type) {
