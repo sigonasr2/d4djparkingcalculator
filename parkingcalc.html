@@ -3,9 +3,9 @@
 	const MAXSTEPS= 10000
 
 	function test(){
-		var start = Number(document.getElementById("starting").value)
-		var end = Number(document.getElementById("ending").value)
-		var maxscore = Number(document.getElementById("maxscore").value)
+		var start = Math.abs(Number(document.getElementById("starting").value))
+		var end = Math.abs(Number(document.getElementById("ending").value))
+		var maxscore = Math.abs(Number(document.getElementById("maxscore").value))
 		var bonus = Number(document.getElementById("team").value)
 		var type = (document.getElementById("Bingo").checked?"Bingo":
 		document.getElementById("Poker").checked?"Poker/Raid":
@@ -87,10 +87,62 @@
 					}
 				}
 			}
+			for (var i=maxscore;i>=0;i-=interval) {
+				if (EvenOdd(start+EPCalc(voltage,i,tbonus))!=EvenOdd(end-10)&&(start+EPCalc(voltage,i,tbonus))==end) {
+					//document.getElementById("console").value+="Ending value needs to be "+EvenOdd(end-10)+"\n"
+					//document.getElementById("console").value+=EvenOdd(start+EPCalc(voltage,i,tbonus))+"/"+EvenOdd(end-10)+"\n"
+					start+=EPCalc(voltage,i,tbonus)
+					flameCount+=voltage
+					document.getElementById("console").value+="Step "+(step++)+") Using "+voltage+" voltage w/"+Math.round(tbonus*100)+"% team, score between "+i+"~"+(i+interval-1)+" pts. EP +"+EPCalc(voltage,i,tbonus)+". Remaining:"+(end-start)+" EP \n"
+					return true
+				}
+			}
+			/*for (var i=maxscore;i>=0;i-=interval) {
+				if ((start+EPCalc(voltage,i,tbonus))==end) {
+					//document.getElementById("console").value+="Ending value needs to be "+EvenOdd(end-10)+"\n"
+					//document.getElementById("console").value+=EvenOdd(start+EPCalc(voltage,i,tbonus))+"/"+EvenOdd(end-10)+"\n"
+					start+=EPCalc(voltage,i,tbonus)
+					flameCount+=voltage
+					document.getElementById("console").value+="Step "+(step++)+") Using "+voltage+" voltage w/"+Math.round(tbonus*100)+"% team, score between "+i+"~"+(i+interval-1)+" pts. EP +"+EPCalc(voltage,i,tbonus)+". Remaining:"+(end-start)+" EP \n"
+					return true
+				}
+			}*/
+			for (var i=maxscore;i>=0;i-=interval) {
+				if (EvenOdd(start+EPCalc(voltage,i,tbonus))!=EvenOdd(end-10)&&(start+EPCalc(voltage,i,tbonus))==end) {
+					//document.getElementById("console").value+="Ending value needs to be "+EvenOdd(end-10)+"\n"
+					//document.getElementById("console").value+=EvenOdd(start+EPCalc(voltage,i,tbonus))+"/"+EvenOdd(end-10)+"\n"
+					start+=EPCalc(voltage,i,tbonus)
+					flameCount+=voltage
+					document.getElementById("console").value+="Step "+(step++)+") Using "+voltage+" voltage w/"+Math.round(tbonus*100)+"% team, score between "+i+"~"+(i+interval-1)+" pts. EP +"+EPCalc(voltage,i,tbonus)+". Remaining:"+(end-start)+" EP \n"
+					return true
+				}
+			}
 			return false
 		}
 		
+		function TryEqualGain(voltage,tbonus) {
+			for (var i=maxscore;i>=0;i-=interval) {
+			//document.getElementById("console").value+=(start+EPCalc(voltage,i,tbonus))+"/"+end+"\n"
+				if ((start+EPCalc(voltage,i,tbonus))==end) {
+					//document.getElementById("console").value+="Ending value needs to be "+EvenOdd(end-10)+"\n"
+					//document.getElementById("console").value+=EvenOdd(start+EPCalc(voltage,i,tbonus))+"/"+EvenOdd(end-10)+"\n"
+					start+=EPCalc(voltage,i,tbonus)
+					flameCount+=voltage
+					document.getElementById("console").value+="Step "+(step++)+") Using "+voltage+" voltage w/"+Math.round(tbonus*100)+"% team, score between "+i+"~"+(i+interval-1)+" pts. EP +"+EPCalc(voltage,i,tbonus)+". Remaining:"+(end-start)+" EP \n"
+					return true
+				}
+			}
+			if (end==start) {
+				return false
+			} else {
+				return undefined
+			}
+		}
+		
 		function TryRehearsal() {
+			if (end==start) {
+				return false
+			}
 			var voltage=0
 			if ((end-start)%2!==0) {
 				return undefined
@@ -112,7 +164,8 @@
 				start+=gain
 				document.getElementById("console").value+="Step "+(step++)+") Use Rehearsal w/0% team. EP +"+gain+". Remaining:"+(end-start)+" EP \n"
 				return false
-			} else {
+			} else 
+			{
 				var gain=end-start
 				start+=gain
 				document.getElementById("console").value+="Step "+(step++)+") Use Rehearsal w/"+((gain-10)*10)+"% team. EP +"+(gain)+". Remaining:"+(end-start)+" EP \n"
@@ -189,6 +242,24 @@
 				do {
 					result = TryRehearsal()
 				} while (result);
+				
+				
+				if (flexible) {
+					for (var i=5;i>0;i--) {
+						for (var j=bonus;j>=0;j-=0.2) {
+							while (result = TryEqualGain(i,j)) {
+								//document.getElementById("console").value+="Step "+(step++)+")"+start+" EP"+"\n"
+							}
+						}
+					}
+				} else {
+					for (var i=5;i>0;i--) {
+						while (result = TryEqualGain(i,bonus)) {
+							//document.getElementById("console").value+="Step "+(step++)+")"+start+" EP"+"\n"
+						}
+					}
+				}
+				
 				start=end
 				if (result===undefined) {
 					document.getElementById("console").value="Impossible to park using this team!"
@@ -231,16 +302,16 @@
 	&nbsp;&nbsp;&nbsp;&nbsp;<label for="flexible" alt="Yes"><b>Flexible Team?</b></label><input id="flexible" type="checkbox"> <i>If turned on, calculates scoring options using lower % teams also.</i>
 	  <br>
 	  <br>
-	<label for="maxscore"><b>Max Free Live Score: </b></label><input id="maxscore" value="650000" onchange="test()">
+	<label for="maxscore"><b>Max Free Live Score: </b></label><input id="maxscore" min=0 type="number" value="650000">
 	<hr>
-	<label for="starting"><b>Starting EP: </b></label><input id="starting" value="100000" onchange="test()">
+	<label for="starting"><b>Starting EP: </b></label><input id="starting" min=0 type="number" value="100000">
 	 <span style="font-size:32px;padding:0px 10px 0px 10px">➔</span>
-	<label for="ending"><b>Target EP: </b></label><input id="ending" value="104000">
+	<label for="ending"><b>Target EP: </b></label><input id="ending" min=0 type="number" value="104000">
 	<br>
 	<br>
 	<button id="calculate" style="background-color:#CCDDFF;margin-left:20px;width:240px;height:32px;font-size:18px;" onclick="test()">Calculate</button>
   </fieldset>
-<div style="display: flex;justify-content: center;align-items: center;">
+<div style="justify-content: center;align-items: center;">
 	<hr>
 	<textarea rows=20 cols=160 id="console">
 	</textarea>
