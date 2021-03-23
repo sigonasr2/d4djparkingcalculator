@@ -139,7 +139,18 @@
 			}
 		}
 		
-		function TryRehearsal() {
+		function TryMatchingRehearsal(tbonus) {
+			//document.getElementById("console").value+=(Math.round(tbonus*10))+10
+			if (end-start==(Math.round(tbonus*10))+10) {
+				var gain=(Math.round(tbonus*10))+10
+				start+=gain
+				document.getElementById("console").value+="Step "+(step++)+") Use Rehearsal w/"+Math.round(tbonus*100)+"% team. EP +"+gain+". Remaining:"+(end-start)+" EP \n"
+				return false
+			}
+			return true
+		}
+		
+		function TryRehearsal(tbonus) {
 			if (end==start) {
 				return false
 			}
@@ -147,10 +158,11 @@
 			if ((end-start)%2!==0) {
 				return undefined
 			}
-			if (end-start>(10+Math.round(bonus*10))+10) {
-				var gain=(10+Math.round(bonus*10))
+			
+			if (end-start>(10+Math.round(tbonus*10))+10) {
+				var gain=(10+Math.round(tbonus*10))
 				start+=gain
-				document.getElementById("console").value+="Step "+(step++)+") Use Rehearsal w/"+(bonus*100)+"% team. EP +"+gain+". Remaining:"+(end-start)+" EP \n"
+				document.getElementById("console").value+="Step "+(step++)+") Use Rehearsal w/"+(tbonus*100)+"% team. EP +"+gain+". Remaining:"+(end-start)+" EP \n"
 				return true
 			} else 
 			if (end-start>=20) {
@@ -239,9 +251,31 @@
 						}
 					}
 				}
-				do {
-					result = TryRehearsal()
-				} while (result);
+				for (var j=bonus;j>=0;j-=0.2) {
+					result = TryMatchingRehearsal(j)
+					if (!result) {
+						break;
+					}
+				}
+				if (result) {
+					for (var j=1.6;j>=0;j-=0.2) {
+						result = TryMatchingRehearsal(j)
+						if (!result) {
+							break;
+						}
+					}
+				}
+				if (result) {
+					do {
+							if (flexible) {
+								for (var j=bonus;j>=0;j-=0.2) {
+									result = TryRehearsal(j)
+								}
+							} else {
+								result = TryRehearsal(bonus)
+							}
+					} while (result);
+				}
 				
 				
 				if (flexible) {
