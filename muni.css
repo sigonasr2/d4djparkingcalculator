@@ -1,0 +1,28 @@
+* {
+  font-family: "Comic Sans MS", "Comic Sans", cursive;
+  box-sizing: border-box;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-image: url("https://cdn.discordapp.com/emojis/744938186983080126.png?v=1");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center calc(62% + 2%);
+  z-index: -1;
+  opacity: 0.25;
+}
+
+textarea {
+  background-color: transparent;
+  width: 100%;
+}
+
+textarea:disabled {
+  color: black;
+}
