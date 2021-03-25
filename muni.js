@@ -225,93 +225,95 @@ const MAXSTEPS= 10000
 		}
 		 else {
 			var result=true
-			while (start!=end) {
-				if (maxscore>0) {
-					if (flexible) {
-						for (var j=bonus;j>=0;j-=0.2) {
-							while (TryBiggestGain(j)) {
-								//document.getElementById("console").value+=+start+" EP"+"\n"
-							}
-							for (var i=4;i>0;i--) {
-								while (TrySmallerGain(i,j)) {
-									//document.getElementById("console").value+="Step "+(step++)+")"+start+" EP"+"\n"
-								}
-							}
-							for (var i=5;i>0;i--) {
-								while (TrySmolGain(i,j)) {
-									//document.getElementById("console").value+="Step "+(step++)+")"+start+" EP"+"\n"
-								}
-							}
-						}
-					} else {
-						while (TryBiggestGain(bonus)) {
+			if (maxscore>0) {
+				if (flexible) {
+					for (var j=bonus;j>=0;j-=0.2) {
+						while (TryBiggestGain(j)) {
 							//document.getElementById("console").value+=+start+" EP"+"\n"
 						}
 						for (var i=4;i>0;i--) {
-							while (TrySmallerGain(i,bonus)) {
+							while (TrySmallerGain(i,j)) {
 								//document.getElementById("console").value+="Step "+(step++)+")"+start+" EP"+"\n"
 							}
 						}
 						for (var i=5;i>0;i--) {
-							while (TrySmolGain(i,bonus)) {
+							while (TrySmolGain(i,j)) {
 								//document.getElementById("console").value+="Step "+(step++)+")"+start+" EP"+"\n"
 							}
 						}
 					}
+				} else {
+					while (TryBiggestGain(bonus)) {
+						//document.getElementById("console").value+=+start+" EP"+"\n"
+					}
+					for (var i=4;i>0;i--) {
+						while (TrySmallerGain(i,bonus)) {
+							//document.getElementById("console").value+="Step "+(step++)+")"+start+" EP"+"\n"
+						}
+					}
+					for (var i=5;i>0;i--) {
+						while (TrySmolGain(i,bonus)) {
+							//document.getElementById("console").value+="Step "+(step++)+")"+start+" EP"+"\n"
+						}
+					}
 				}
-				for (var j=bonus;j>=0;j-=0.2) {
+			}
+			for (var j=bonus;j>=0;j-=0.2) {
+				result = TryMatchingRehearsal(j)
+				if (!result) {
+					break;
+				}
+			}
+			if (result) {
+				for (var j=1.6;j>=0;j-=0.2) {
 					result = TryMatchingRehearsal(j)
 					if (!result) {
 						break;
 					}
 				}
-				if (result) {
-					for (var j=1.6;j>=0;j-=0.2) {
-						result = TryMatchingRehearsal(j)
-						if (!result) {
-							break;
-						}
-					}
-				}
-				if (result) {
-					do {
-							if (flexible) {
-								for (var j=bonus;j>=0;j-=0.2) {
-									result = TryRehearsal(j)
-								}
-							} else {
-								result = TryRehearsal(bonus)
-							}
-					} while (result);
-				}
-
-
-				if (maxscore>0) {
-					if (flexible) {
-						for (var i=5;i>0;i--) {
+			}
+			if (result) {
+				do {
+						if (flexible) {
 							for (var j=bonus;j>=0;j-=0.2) {
-								while (result = TryEqualGain(i,j)) {
-									//document.getElementById("console").value+="Step "+(step++)+")"+start+" EP"+"\n"
+								var prevstart = 0
+								result = TryRehearsal(j)
+								if (start!==prevstart) {
+									break;
 								}
 							}
+						} else {
+							result = TryRehearsal(bonus)
 						}
-					} else {
-						for (var i=5;i>0;i--) {
-							while (result = TryEqualGain(i,bonus)) {
+				} while (result);
+			}
+
+
+			if (maxscore>0) {
+				if (flexible) {
+					for (var i=5;i>0;i--) {
+						for (var j=bonus;j>=0;j-=0.2) {
+							while (result = TryEqualGain(i,j)) {
 								//document.getElementById("console").value+="Step "+(step++)+")"+start+" EP"+"\n"
 							}
 						}
 					}
-				}
-
-				start=end
-				if (result===undefined) {
-					document.getElementById("console").value="Impossible to park using this team!"
 				} else {
-					document.getElementById("console").value="Calculating from "+originalTarget+" to "+end+" for event type "+type+"...\n\t(All games are done in Free Live)\n\nFound a park! "+(step-1)+" step"+Plural(step-1)+" and "+flameCount+" voltage required!\n\n"+document.getElementById("console").value
+					for (var i=5;i>0;i--) {
+						while (result = TryEqualGain(i,bonus)) {
+							//document.getElementById("console").value+="Step "+(step++)+")"+start+" EP"+"\n"
+						}
+					}
 				}
-				//document.getElementById("console").value+="Step "+(step++)+")"+start+" EP"+"\n"
-				step++
 			}
+
+			start=end
+			if (result===undefined) {
+				document.getElementById("console").value="Impossible to park using this team!"
+			} else {
+				document.getElementById("console").value="Calculating from "+originalTarget+" to "+end+" for event type "+type+"...\n\t(All games are done in Free Live)\n\nFound a park! "+(step-1)+" step"+Plural(step-1)+" and "+flameCount+" voltage required!\n\n"+document.getElementById("console").value
+			}
+			//document.getElementById("console").value+="Step "+(step++)+")"+start+" EP"+"\n"
+			step++
 		}
 	}
