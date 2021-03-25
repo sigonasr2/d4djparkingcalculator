@@ -5,9 +5,9 @@ const MAXSTEPS= 10000
 	}
 
 	function test(){
-		var start = Math.abs(Number(document.getElementById("starting").value))
-		var end = Math.abs(Number(document.getElementById("ending").value))
-		var maxscore = Math.abs(Number(document.getElementById("maxscore").value))
+		var start = Math.abs(Math.max(0,Number(document.getElementById("starting").value)))
+		var end = Math.abs(Math.max(0,Number(document.getElementById("ending").value)))
+		var maxscore = Math.abs(Math.max(0,Number(document.getElementById("maxscore").value)))
 		var bonus = Number(document.getElementById("team").value)
 		var type = (document.getElementById("Bingo").checked?"Bingo":
 		document.getElementById("Poker").checked?"Poker/Raid":
@@ -164,7 +164,7 @@ const MAXSTEPS= 10000
 			if (end-start>(10+Math.round(tbonus*10))+10) {
 				var gain=(10+Math.round(tbonus*10))
 				start+=gain
-				document.getElementById("console").value+="Step "+(step++)+") Use Rehearsal w/"+(tbonus*100)+"% team. EP +"+gain+". Remaining:"+(end-start)+" EP \n"
+				document.getElementById("console").value+="Step "+(step++)+") Use Rehearsal w/"+Math.round(tbonus*100)+"% team. EP +"+gain+". Remaining:"+(end-start)+" EP \n"
 				return true
 			} else 
 			if (end-start>=20) {
@@ -226,34 +226,36 @@ const MAXSTEPS= 10000
 		 else {
 			var result=true
 			while (start!=end) {
-				if (flexible) {
-					for (var j=bonus;j>=0;j-=0.2) {
-						while (TryBiggestGain(j)) {
+				if (maxscore>0) {
+					if (flexible) {
+						for (var j=bonus;j>=0;j-=0.2) {
+							while (TryBiggestGain(j)) {
+								//document.getElementById("console").value+=+start+" EP"+"\n"
+							}
+							for (var i=4;i>0;i--) {
+								while (TrySmallerGain(i,j)) {
+									//document.getElementById("console").value+="Step "+(step++)+")"+start+" EP"+"\n"
+								}
+							}
+							for (var i=5;i>0;i--) {
+								while (TrySmolGain(i,j)) {
+									//document.getElementById("console").value+="Step "+(step++)+")"+start+" EP"+"\n"
+								}
+							}
+						}
+					} else {
+						while (TryBiggestGain(bonus)) {
 							//document.getElementById("console").value+=+start+" EP"+"\n"
 						}
 						for (var i=4;i>0;i--) {
-							while (TrySmallerGain(i,j)) {
+							while (TrySmallerGain(i,bonus)) {
 								//document.getElementById("console").value+="Step "+(step++)+")"+start+" EP"+"\n"
 							}
 						}
 						for (var i=5;i>0;i--) {
-							while (TrySmolGain(i,j)) {
+							while (TrySmolGain(i,bonus)) {
 								//document.getElementById("console").value+="Step "+(step++)+")"+start+" EP"+"\n"
 							}
-						}
-					}
-				} else {
-					while (TryBiggestGain(bonus)) {
-						//document.getElementById("console").value+=+start+" EP"+"\n"
-					}
-					for (var i=4;i>0;i--) {
-						while (TrySmallerGain(i,bonus)) {
-							//document.getElementById("console").value+="Step "+(step++)+")"+start+" EP"+"\n"
-						}
-					}
-					for (var i=5;i>0;i--) {
-						while (TrySmolGain(i,bonus)) {
-							//document.getElementById("console").value+="Step "+(step++)+")"+start+" EP"+"\n"
 						}
 					}
 				}
@@ -284,18 +286,20 @@ const MAXSTEPS= 10000
 				}
 
 
-				if (flexible) {
-					for (var i=5;i>0;i--) {
-						for (var j=bonus;j>=0;j-=0.2) {
-							while (result = TryEqualGain(i,j)) {
-								//document.getElementById("console").value+="Step "+(step++)+")"+start+" EP"+"\n"
+				if (maxscore>0) {
+					if (flexible) {
+						for (var i=5;i>0;i--) {
+							for (var j=bonus;j>=0;j-=0.2) {
+								while (result = TryEqualGain(i,j)) {
+									//document.getElementById("console").value+="Step "+(step++)+")"+start+" EP"+"\n"
+								}
 							}
 						}
-					}
-				} else {
-					for (var i=5;i>0;i--) {
-						while (result = TryEqualGain(i,bonus)) {
-							//document.getElementById("console").value+="Step "+(step++)+")"+start+" EP"+"\n"
+					} else {
+						for (var i=5;i>0;i--) {
+							while (result = TryEqualGain(i,bonus)) {
+								//document.getElementById("console").value+="Step "+(step++)+")"+start+" EP"+"\n"
+							}
 						}
 					}
 				}
