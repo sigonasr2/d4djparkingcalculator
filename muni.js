@@ -7,7 +7,6 @@ const MAXSTEPS= 10000
 	function test(){
 		var start = Math.abs(Math.max(0,Number(document.getElementById("starting").value)))
 		var end = Math.abs(Math.max(0,Number(document.getElementById("ending").value)))
-		var maxscore = Math.abs(Math.max(0,Number(document.getElementById("maxscore").value)))
 		var bonus = Number(document.getElementById("team").value)
 		var type = (document.getElementById("Bingo").checked?"Bingo":
 		document.getElementById("Poker").checked?"Poker/Raid":
@@ -20,6 +19,8 @@ const MAXSTEPS= 10000
 		document.getElementById("console").value=""
 
 		var interval = (type=="Medley")?15000:10000
+		
+		var maxscore = Math.floor(Math.abs(Math.max(0,Number(document.getElementById("maxscore").value)))/interval)*interval
 
 		function EPCalc(voltage,score,bonus) {
 			if (voltage>0) {
