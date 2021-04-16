@@ -165,18 +165,27 @@ const MAXSTEPS= 10000
 			if (end-start>(10+Math.round(tbonus*10))+10) {
 				var gain=(10+Math.round(tbonus*10))
 				start+=gain
+				//document.getElementById("console").value+="1)"
 				document.getElementById("console").value+="Step "+(step++)+") Use Rehearsal w/"+Math.round(tbonus*100)+"% team. EP +"+gain+". Remaining:"+(end-start)+" EP \n"
 				return true
 			} else 
+			for (var j=tbonus;j>=0;j-=0.2) {
+				result = TryMatchingRehearsal(j)
+				if (!result) {
+					return false
+				}
+			}
 			if (end-start>=20) {
 				var gain=end-start-10
 				start+=gain
+				//document.getElementById("console").value+="2)"
 				document.getElementById("console").value+="Step "+(step++)+") Use Rehearsal w/"+((gain-10)*10)+"% team. EP +"+gain+". Remaining:"+(end-start)+" EP \n"
 				return true
 			} else 
 			if ((end-start)%10==0) {
 				var gain=10
 				start+=gain
+				//document.getElementById("console").value+="3)"
 				document.getElementById("console").value+="Step "+(step++)+") Use Rehearsal w/0% team. EP +"+gain+". Remaining:"+(end-start)+" EP \n"
 				return false
 			} else 
@@ -184,6 +193,7 @@ const MAXSTEPS= 10000
 				var gain=end-start
 				if (((gain-10)*10)>=0) {
 					start+=gain
+					//document.getElementById("console").value+="4)"
 					document.getElementById("console").value+="Step "+(step++)+") Use Rehearsal w/"+((gain-10)*10)+"% team. EP +"+(gain)+". Remaining:"+(end-start)+" EP \n"
 					return false					
 				} else {
