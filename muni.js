@@ -47,7 +47,7 @@ const MAXSTEPS= 10000
 		function TryBiggestGain(tbonus) {
 			var voltage=5
 			for (var i=maxscore;i>=maxscore*0.8;i-=interval) {
-				if (start+EPCalc(voltage,i,tbonus)<end-10||start+EPCalc(voltage,i,tbonus)==end) {
+				if (start+EPCalc(voltage,i,tbonus)<end-10||((start+EPCalc(voltage,i,tbonus)==end)&&((end-start)%2==1||(end-start)>26))) {
 					//document.getElementById("console").value+="Ending value needs to be "+EvenOdd(end-10)+"\n"
 					if (EvenOdd(start+EPCalc(voltage,i,tbonus))==EvenOdd(end-10)) {
 						//document.getElementById("console").value+=EvenOdd(start+EPCalc(voltage,i,tbonus))+"/"+EvenOdd(end-10)+"\n"
@@ -63,7 +63,7 @@ const MAXSTEPS= 10000
 
 		function TrySmallerGain(voltage,tbonus) {
 			for (var i=maxscore;i>=maxscore*0.8;i-=interval) {
-				if (start+EPCalc(voltage,i,tbonus)<end-10||start+EPCalc(voltage,i,tbonus)==end) {
+				if (start+EPCalc(voltage,i,tbonus)<end-10||((start+EPCalc(voltage,i,tbonus)==end)&&((end-start)%2==1||(end-start)>26))) {
 					//document.getElementById("console").value+="Ending value needs to be "+EvenOdd(end-10)+"\n"
 					if (EvenOdd(start+EPCalc(voltage,i,tbonus))==EvenOdd(end-10)||start+EPCalc(voltage,i,tbonus)==end) {
 						//document.getElementById("console").value+=EvenOdd(start+EPCalc(voltage,i,tbonus))+"/"+EvenOdd(end-10)+"\n"
@@ -79,7 +79,7 @@ const MAXSTEPS= 10000
 
 		function TrySmolGain(voltage,tbonus) {
 			for (var i=maxscore;i>=0;i-=interval) {
-				if ((EPCalc(voltage,i,tbonus)>=(10+Math.round(bonus*10))&&(start+EPCalc(voltage,i,tbonus)<=end-(10+Math.round(bonus*10))))||start+EPCalc(voltage,i,tbonus)==end) {
+				if ((EPCalc(voltage,i,tbonus)>=(10+Math.round(bonus*10))&&(start+EPCalc(voltage,i,tbonus)<=end-(10+Math.round(bonus*10))))||((start+EPCalc(voltage,i,tbonus)==end)&&((end-start)%2==1||(end-start)>26))) {
 					//document.getElementById("console").value+="Ending value needs to be "+EvenOdd(end-10)+"\n"
 					if (EvenOdd(start+EPCalc(voltage,i,tbonus))==EvenOdd(end-10)||start+EPCalc(voltage,i,tbonus)==end) {
 						//document.getElementById("console").value+=EvenOdd(start+EPCalc(voltage,i,tbonus))+"/"+EvenOdd(end-10)+"\n"
@@ -91,7 +91,7 @@ const MAXSTEPS= 10000
 				}
 			}
 			for (var i=maxscore;i>=0;i-=interval) {
-				if (EvenOdd(start+EPCalc(voltage,i,tbonus))!=EvenOdd(end-10)&&(start+EPCalc(voltage,i,tbonus))==end) {
+				if (EvenOdd(start+EPCalc(voltage,i,tbonus))!=EvenOdd(end-10)&&(((start+EPCalc(voltage,i,tbonus))==end)&&((end-start)%2==1||(end-start)>26))) {
 					//document.getElementById("console").value+="Ending value needs to be "+EvenOdd(end-10)+"\n"
 					//document.getElementById("console").value+=EvenOdd(start+EPCalc(voltage,i,tbonus))+"/"+EvenOdd(end-10)+"\n"
 					start+=EPCalc(voltage,i,tbonus)
@@ -111,7 +111,7 @@ const MAXSTEPS= 10000
 				}
 			}*/
 			for (var i=maxscore;i>=0;i-=interval) {
-				if (EvenOdd(start+EPCalc(voltage,i,tbonus))!=EvenOdd(end-10)&&(start+EPCalc(voltage,i,tbonus))==end) {
+				if (EvenOdd(start+EPCalc(voltage,i,tbonus))!=EvenOdd(end-10)&&(((start+EPCalc(voltage,i,tbonus))==end)&&((end-start)%2==1||(end-start)>26))) {
 					//document.getElementById("console").value+="Ending value needs to be "+EvenOdd(end-10)+"\n"
 					//document.getElementById("console").value+=EvenOdd(start+EPCalc(voltage,i,tbonus))+"/"+EvenOdd(end-10)+"\n"
 					start+=EPCalc(voltage,i,tbonus)
@@ -126,7 +126,7 @@ const MAXSTEPS= 10000
 		function TryEqualGain(voltage,tbonus) {
 			for (var i=maxscore;i>=0;i-=interval) {
 			//document.getElementById("console").value+=(start+EPCalc(voltage,i,tbonus))+"/"+end+"\n"
-				if ((start+EPCalc(voltage,i,tbonus))==end) {
+				if (((start+EPCalc(voltage,i,tbonus))==end)&&((end-start)%2==1||(end-start)>26)) {
 					//document.getElementById("console").value+="Ending value needs to be "+EvenOdd(end-10)+"\n"
 					//document.getElementById("console").value+=EvenOdd(start+EPCalc(voltage,i,tbonus))+"/"+EvenOdd(end-10)+"\n"
 					start+=EPCalc(voltage,i,tbonus)
