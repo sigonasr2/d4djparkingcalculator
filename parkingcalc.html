@@ -35,14 +35,17 @@
         <option value="1.4">140%</option>
         <option value="1.6" selected>160%</option>
       </select>
-      &nbsp;&nbsp;&nbsp;&nbsp;<label for="flexible" alt="Yes"
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="tooltip"><label for="flexible" alt="Yes"
         ><b>Flexible Team?</b></label
       ><input id="flexible" type="checkbox" />
-      <i>If turned on, calculates scoring options using lower % teams also.</i>
+      <span class="tooltiptext">If turned on, calculates scoring options using lower % teams also.</span>
+	  </span>
       <br />
       <br />
-      <label for="maxscore"><b>Max Free Live Score: </b></label
-      ><input id="maxscore" min="0" type="number" value="650000" /> <i> (Use 0 for Rehearsals Only)</i>
+      <span class="tooltip"><label for="maxscore"><b>Max Free Live Score: </b></label
+      ><input id="maxscore" min="0" type="number" value="650000" /> <span class="tooltiptext">
+	  The maximum score you can get from playing a song using <font color="aqua">Free Live</font>.<br>
+	  <sub>(Use 0 for Rehearsals Only)</sub></span></span>
       <hr />
       <label for="starting"><b>Starting EP: </b></label
       ><input id="starting" min="0" type="number" value="100000" />
