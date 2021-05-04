@@ -23,29 +23,47 @@
       <label for="Medley">Medley</label>
       &nbsp;&nbsp;&nbsp;
       <hr />
-      <label for="team">Event Team Bonus:</label>
-      <select id="team" name="team">
-        <option value="0">0%</option>
-        <option value="0.2">20%</option>
-        <option value="0.4">40%</option>
-        <option value="0.6">60%</option>
-        <option value="0.8">80%</option>
-        <option value="1.0">100%</option>
-        <option value="1.2">120%</option>
-        <option value="1.4">140%</option>
-        <option value="1.6" selected>160%</option>
-      </select>
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="tooltip"><label for="flexible" alt="Yes"
-        ><b>Flexible Team?</b></label
-      ><input id="flexible" type="checkbox" />
-      <span class="tooltiptext">If turned on, calculates scoring options using lower % teams also.</span>
-	  </span>
-      <br />
-      <br />
-      <span class="tooltip"><label for="maxscore"><b>Max Free Live Score: </b></label
-      ><input id="maxscore" min="0" type="number" value="650000" /> <span class="tooltiptext">
-	  The maximum score you can get from playing a song using <font color="aqua">Free Live</font>.<br>
-	  <sub>(Use 0 for Rehearsals Only)</sub></span></span>
+	  <div class="grid">
+		<div class="munigrid">
+		  <label for="team">Event Team Bonus:</label>
+		  <select id="team" name="team">
+			<option value="0">0%</option>
+			<option value="0.2">20%</option>
+			<option value="0.4">40%</option>
+			<option value="0.6">60%</option>
+			<option value="0.8">80%</option>
+			<option value="1.0">100%</option>
+			<option value="1.2">120%</option>
+			<option value="1.4">140%</option>
+			<option value="1.6" selected>160%</option>
+		  </select>
+		  &nbsp;&nbsp;&nbsp;&nbsp;<span class="tooltip"><label for="flexible" alt="Yes"
+			><b>Flexible Team?</b></label
+		  ><input id="flexible" type="checkbox" />
+		  <span class="tooltiptext">If turned on, calculates scoring options using lower % teams also.</span>
+		  </span>
+		  <br />
+		  <br />
+		  <span class="tooltip"><label for="maxscore"><b>Max Free Live Score: </b></label
+		  ><input id="maxscore" min="0" type="number" value="650000" /> <span class="tooltiptext">
+		  The maximum score you can get from playing a song using <font color="aqua">Free Live</font>.<br>
+		  <sub>(Use 0 for Rehearsals Only)</sub></span></span>
+		</div>
+		<div class="munigrid">
+		  <span class="tooltip"><label for="advanced" alt="Yes"
+			><b>Advanced Options?</b></label
+		  ><input id="advanced" type="checkbox" /><span class="tooltiptext">
+		  Enable voltage & EP limits.</span></span>
+		  <div class="grid" id="advanced" style="visibility:hidden">
+			<div class="munigrid">
+				Lowest EP to use Voltage: 
+			</div>
+			<div class="munigrid">
+				Max Voltage to consume:
+			</div>
+		  </div>
+		</div>
+	  </div>
       <hr />
       <label for="starting"><b>Starting EP: </b></label
       ><input id="starting" min="0" type="number" value="100000" />
