@@ -72,3 +72,23 @@ textarea:disabled {
   visibility: visible;
   opacity: 1;
 }
+
+.grid{
+	display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+}
+
+.munigrid{
+    border-left: 1px dotted #000;
+    border-right: 1px dotted #000;
+}
+
+.munigrid:nth-child(1){
+	border-left:none;
+}
+
+.munigrid:nth-child(even){
+	border-left:none;
+	border-right:none;
+}
