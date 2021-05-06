@@ -53,10 +53,10 @@ const MAXSTEPS= 10000
 				return "Enable voltage & EP limits."
 			}break;
 			case 12:{ //Label for setting the lowest EP where voltage is allowed.
-				return "Lowest EP to use Voltage:"
+				return "Use voltage until: "
 			}break;
 			case 13:{ //Label for setting the total amount of voltage the calculator may consume.
-				return "Max Voltage to consume:"
+				return "Max Voltage to use:"
 			}break;
 			case 14:{ //Label for setting the Starting EP amount.
 				return "Starting EP:"
@@ -66,6 +66,15 @@ const MAXSTEPS= 10000
 			}break;
 			case 16:{ //The text for the button users click to run the calculator.
 				return "Calculate"
+			}break;
+			case 19:{ //Tip: Here's the Light on EX or Synchrogazer on Hard/EX difficulty are some of the highest scoring songs you can pick.
+				return "Here's the Light on EX or Synchrogazer on Hard/EX difficulty are some of the highest scoring songs you can pick."
+			}break;
+			case 20:{ //Tip: When you get close to the score you need in Free Live, purposely fail the song. Notes are worth 10% their normal value when you have 0 health so you can finish easily.
+				return "When you get close to the score you need in Free Live, purposely fail the song. Notes are worth 10% their normal value when you have 0 health so you can finish easily."
+			}break;
+			case 21:{ //Tip: The "Flexible Team" option gives you the fastest park, but at the expense of more voltage.
+				return "The <b>\"Flexible Team\"</b> option gives you the fastest park, but at the expense of more voltage."
 			}break;
 			case "%INITIAL%":{ //This message is the first thing to display for a normal calculation.
 				//Sample message:
@@ -91,7 +100,7 @@ const MAXSTEPS= 10000
 				*/
 				//Variables for this message:
 				/*
-					Step %STEP%) Using %VOLTAGE% voltage w/%PERCENT%% team, score between %LOWSCORE~%HIGHSCORE% pts. EP +%EPGAIN%. Remaining:%REMAINING% EP 
+					Step %STEP%) Using %VOLTAGE% voltage w/%PERCENT%% team, score between %LOWSCORE%~%HIGHSCORE% pts. EP +%EPGAIN%. Remaining:%REMAINING% EP 
 				*/
 				return "Step %STEP%) Using %VOLTAGE% voltage w/%PERCENT%% team, score between %LOWSCORE%~%HIGHSCORE% pts. EP +%EPGAIN%. Remaining:%REMAINING% EP"
 			}break;
@@ -155,6 +164,11 @@ const MAXSTEPS= 10000
 		}
 	}
 	ConvertLanguage()
+	
+	function toggle(){
+		//document.getElementById("console").value+=JSON.stringify(document.getElementById("advanced"))
+		document.getElementById("advanced2").style.visibility=document.getElementById("advanced").checked?"visible":"hidden"
+	}
 
 	function test(){
 		
@@ -173,7 +187,7 @@ const MAXSTEPS= 10000
 
 		var interval = (type=="Medley")?15000:10000
 		
-		var maxscore = Math.floor(Math.abs(Math.max(0,Number(document.getElementById("maxscore").value)))/interval)*interval
+		var maxscore = Math.floor(Math.abs(Math.min(5000000,Math.max(0,Number(document.getElementById("maxscore").value))))/interval)*interval
 
 		function EPCalc(voltage,score,bonus) {
 			if (voltage>0) {
