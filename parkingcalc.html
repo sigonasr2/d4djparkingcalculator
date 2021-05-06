@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="muni.css" />
     <title class="translate1">D4DJ Parking Calculator | Powered by Muni</title>
+    <script src="english.js"></script>
+    <script src="japanese.js"></script>
   </head>
   <body>
     <h1 class="translate2">D4DJ Event Parking Calculator</h1>
@@ -44,31 +46,31 @@
 		  <br />
 		  <br />
 		  <span class="tooltip"><label for="maxscore"><b class="translate18">Max Free Live Score: </b> </label
-		  ><input id="maxscore" min="0" type="number" value="650000" /> <span class="tooltiptext translate9">
+		  ><input id="maxscore" min="0" type="number" max="5000000" value="650000" /> <span class="tooltiptext translate9">
 		  The maximum score you can get from playing a song using <font color="aqua">Free Live</font>.<br>
 		  <sub>(Use 0 for Rehearsals Only)</sub></span></span>
 		</div>
 		<div class="munigrid">
 		  <span class="tooltip"><label for="advanced" alt="Yes"
 			><b class="translate10">Advanced Options?</b></label
-		  ><input id="advanced" type="checkbox" /><span class="tooltiptext translate11">
+		  ><input id="advanced" type="checkbox" onclick="toggle()" /><span class="tooltiptext translate11">
 		  Enable voltage & EP limits.</span></span>
-		  <div class="grid" id="advanced" style="visibility:hidden">
-			<div class="munigrid translate12">
-				Lowest EP to use Voltage: 
-			 </div>
-			<div class="munigrid translate13">
-				Max Voltage to consume:
-			 </div>
+		  <div id="advanced2" style="visibility:hidden">
+			<label for="lowest" class="translate12">
+				Use voltage until:  
+			 </label><input style="width:96px;" id="lowest" type="number" min="10" step="2" value="80"> EP<br>
+			<label for="maxvolt" class="translate13">
+				Max Voltage to use: 
+			 </label> <input style="width:64px;" id="maxvolt" type="number" min="0" value="20">
 		  </div>
 		</div>
 	  </div>
       <hr />
-      <label for="starting" class="translate14"><b>Starting EP:</b> </label
-      ><input id="starting" min="0" type="number" value="100000" />
+      <b><label for="starting" class="translate14">Starting EP: </label
+      ></b><input id="starting" min="0" type="number" value="100000" />
       <span style="font-size: 32px; padding: 0px 10px 0px 10px">➔</span>
-      <label for="ending" class="translate15"><b>Target EP:</b> </label
-      ><input id="ending" min="0" type="number" value="104000" />
+      <b><label for="ending" class="translate15">Target EP: </label
+      ></b><input id="ending" min="0" type="number" value="104000" />
       <br />
       <br />
       <button
@@ -88,7 +90,12 @@
     <div style="display: flex; justify-content: stretch; align-items: center">
       <textarea rows="20" cols="160" id="console" disabled> </textarea>
     </div>
-
+	<sub><u>Tips</u></sub>
+	<ul>
+	<li class="translate19">Here's the Light on EX or Synchrogazer on Hard/EX difficulty are some of the highest scoring songs you can pick.</li>
+	<li class="translate20">When you get close to the score you need in Free Live, purposely fail the song. Notes are worth 10% their normal value when you have 0 health so you can finish easily.</li>
+	<li class="translate21">The <b>"Flexible Team"</b> option gives you the fastest park, but at the expense of more voltage.</li>
+	</ul>
     <script src="muni.js"></script>
     <script>
       document.getElementById("ips").value = "";
