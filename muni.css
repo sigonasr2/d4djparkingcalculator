@@ -25,6 +25,8 @@ textarea {
 
 textarea:disabled {
   color: black;
+  -webkit-text-fill-color: #000000;
+  opacity: 1; /* required on iOS */
 }
 
 /* Tooltip container */
