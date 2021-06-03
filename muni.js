@@ -45,6 +45,7 @@ const MAXSTEPS= 10000
 		var start = Math.abs(Math.max(0,Number(document.getElementById("starting").value)))
 		var end = Math.abs(Math.max(0,Number(document.getElementById("ending").value)))
 		var bonus = Number(document.getElementById("team").value)
+		var parameter = Math.abs(Math.max(0,Number(document.getElementById("parameter").value)))
 		var type = (document.getElementById("Bingo").checked?"Bingo":
 		document.getElementById("Poker").checked?"Poker/Raid":
 		"Medley")
@@ -63,7 +64,7 @@ const MAXSTEPS= 10000
 			if (voltage>0) {
 				switch (type) {
 					case "Bingo":{
-						return voltage * Math.floor((1 + bonus)*Math.max(10,Math.floor(score/interval)))
+						return voltage * Math.floor((1 + bonus)*Math.max(10,Math.floor(score/interval))+Math.floor((1 + bonus)*Math.floor(parameter/600)))
 					}break;
 					case "Medley":{
 						return voltage * Math.floor((1 + bonus)*(10+Math.floor(score/interval)))
