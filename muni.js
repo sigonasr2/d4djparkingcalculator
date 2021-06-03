@@ -39,6 +39,10 @@ const MAXSTEPS= 10000
 		//document.getElementById("console").value+=JSON.stringify(document.getElementById("advanced"))
 		document.getElementById("advanced2").style.visibility=document.getElementById("advanced").checked?"visible":"hidden"
 	}
+	
+	function toggleBingo(){
+		document.getElementById("hideBingo").style.visibility=document.getElementById("Bingo").checked?"visible":"hidden"
+	}
 
 	function test(){
 		

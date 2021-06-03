@@ -15,14 +15,14 @@
 
     <fieldset>
       <legend>Parking Configuration</legend>
-      <input type="radio" id="Poker" name="type" value="Poker" checked />
-      <label for="Poker">Poker/Raid</label>
+      <input onClick="toggleBingo()" type="radio" id="Poker" name="type" value="Poker" checked />
+      <label onClick="toggleBingo()" for="Poker">Poker/Raid</label>
       &nbsp;&nbsp;&nbsp;
-      <input type="radio" id="Bingo" name="type" value="Bingo" />
-      <label for="Bingo">Bingo</label>
+      <input onClick="toggleBingo()" type="radio" id="Bingo" name="type" value="Bingo" />
+      <label onClick="toggleBingo()" for="Bingo">Bingo</label>
       &nbsp;&nbsp;&nbsp;
-      <input type="radio" id="Medley" name="type" value="Medley" />
-      <label for="Medley">Medley</label>
+      <input onClick="toggleBingo()" type="radio" id="Medley" name="type" value="Medley" />
+      <label onClick="toggleBingo()" for="Medley">Medley</label>
       &nbsp;&nbsp;&nbsp;
       <hr />
       <label for="team">Event Team Bonus:</label>
@@ -48,8 +48,8 @@
       ><input id="maxscore" min="0" type="number" value="620000" /> <span class="tooltiptext translate22">
 	  The maximum score you can get from playing a song using <font color="aqua">Free Live</font>.<br>
 	  <sub>(Use 0 for Rehearsals Only)</sub></span></span>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="parameter"><b>Parameter: </b></label
-      ><input id="parameter" min="0" type="number" value="62000" /> <span class="tooltiptext translate23">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span id="hideBingo" style="visibility:hidden;"><label for="parameter"><b>Parameter: </b></label
+      ><input id="parameter" min="0" type="number" value="62000" /> 
 	  <i><a href="parameterbonus_instructions_small.png" target="_blank">How to find Parameter value???</a></i></span>
       <hr />
       <label for="starting"><b>Starting EP: </b></label
