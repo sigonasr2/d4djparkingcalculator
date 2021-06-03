@@ -41,7 +41,7 @@ const MAXSTEPS= 10000
 	}
 	
 	function toggleBingo(){
-		document.getElementById("hideBingo").style.visibility=document.getElementById("Bingo").checked?"visible":"hidden"
+		setTimeout(() => {  document.getElementById("hideBingo").style.visibility=document.getElementById("Bingo").checked?"visible":"hidden"},100)
 	}
 
 	function test(){
