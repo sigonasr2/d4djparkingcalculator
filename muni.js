@@ -40,9 +40,13 @@ const MAXSTEPS= 10000
 		document.getElementById("advanced2").style.visibility=document.getElementById("advanced").checked?"visible":"hidden"
 	}
 	
-	function toggleBingo(){
-		setTimeout(() => {  document.getElementById("hideBingo").style.visibility=document.getElementById("Bingo").checked?"visible":"hidden"},100)
+	function toggleWarning() {
+		setTimeout(() => {  document.getElementById("warningparktext").style.visibility=document.getElementById("flexible").checked?"visible":"hidden"},100)
 	}
+	
+	/*function toggleBingo(){
+		setTimeout(() => {  document.getElementById("hideBingo").style.visibility=document.getElementById("Bingo").checked?"visible":"hidden"},100)
+	}*/
 
 	function test(){
 		
@@ -71,10 +75,10 @@ const MAXSTEPS= 10000
 						return voltage * Math.floor((1 + bonus)*Math.max(10,Math.floor(score/interval))+Math.floor((1 + bonus)*Math.floor(parameter/600)))
 					}break;
 					case "Medley":{
-						return voltage * Math.floor((1 + bonus)*(10+Math.floor(score/interval)))
+						return voltage * Math.floor((1 + bonus)*(10+Math.floor(score/interval))+Math.floor((1 + bonus)*Math.floor(parameter/600)))
 					}break;
 					case "Poker/Raid":{
-						return voltage * Math.floor((1 + bonus)*(50 + Math.floor(score/interval)))
+						return voltage * Math.floor((1 + bonus)*(50 + Math.floor(score/interval))+Math.floor((1 + bonus)*Math.floor(parameter/600)))
 					}break;
 				}
 			} else {
