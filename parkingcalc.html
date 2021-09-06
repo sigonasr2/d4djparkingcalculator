@@ -15,8 +15,17 @@
 
     <fieldset>
       <legend>Parking Configuration</legend>
+      <!-- There's actually no difference between JP/EN scoring for now. But leaving this here if/when it does change again. -->
+      <label for="serverType">Server:</label>
+      <input type="radio" id="ServerJP" name="serverType" value="ServerJP" checked />
+      <label for="ServerJP">JP</label>
+      &nbsp;&nbsp;&nbsp;
+      <input type="radio" id="ServerEN" name="serverType" value="ServerEN" />
+      <label for="ServerEN">EN</label>
+      <br /><br />
+      <label for="type">Event Type:</label>
       <input type="radio" id="Poker" name="type" value="Poker" checked />
-      <label for="Poker">Poker/Raid</label>
+      <label for="Poker">Poker</label>
       &nbsp;&nbsp;&nbsp;
       <input type="radio" id="Bingo" name="type" value="Bingo" />
       <label for="Bingo">Bingo</label>
@@ -24,9 +33,17 @@
       <input type="radio" id="Medley" name="type" value="Medley" />
       <label for="Medley">Medley</label>
       &nbsp;&nbsp;&nbsp;
+      <input type="radio" id="Raid" name="type" value="Raid" />
+      <label for="Raid">Raid</label>
       <hr />
       <label for="team">Event Team Bonus:</label>
-      <select id="team" name="team">
+      &nbsp;&nbsp;
+      <span onclick="toggleBonus()" class="tooltip">
+        <label for="teambonus">Matching Bonus?</label>
+        <input id="teambonus" type="checkbox">
+        <span class="tooltiptext">Check this box if event gives extra 10% for matching both char and style.</span>
+      </span>
+      <select id="bonus">
         <option value="0">0%</option>
         <option value="0.2">20%</option>
         <option value="0.4">40%</option>
@@ -37,40 +54,33 @@
         <option value="1.4">140%</option>
         <option value="1.6" selected>160%</option>
       </select>
-      &nbsp;&nbsp;&nbsp;&nbsp;<span onClick="toggleWarning()" class="tooltip"><label for="flexible" alt="Yes"
-        ><b>Flexible Team?</b></label
-      ><input id="flexible" type="checkbox" />
-      <span class="tooltiptext">If turned on, calculates scoring options using lower % teams also.</span>
-	  </span>
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <span onClick="toggleWarning()" class="tooltip">
+        <label for="flexible" alt="Yes"><b>Flexible Team?</b></label>
+        <input id="flexible" type="checkbox" />
+        <span class="tooltiptext">If turned on, calculates scoring options using lower % teams also.</span>
+	    </span>
 	  <span id="warningparktext" style="visibility:hidden;"><font color="red"><b>WARNING!</b> If your team% changes as you are parking you will have to recalculate the <font color="black"><b><u>PARAMETER</u></b></font> value in the middle of parking!</font></span>
       <br />
       <br />
-      <span class="tooltip"><label for="maxscore"><b>Max Free Live Score: </b></label
-      ><input id="maxscore" min="0" type="number" value="620000" /> <span class="tooltiptext translate22">
+      <span class="tooltip"><label for="maxscore"><b>Max Free Live Score: </b></label><input id="maxscore" min="0" type="number" value="620000" /> <span class="tooltiptext translate22">
 	  The maximum score you can get from playing a song using <font color="aqua">Free Live</font>.<br>
 	  <sub>(Use 0 for Rehearsals Only)</sub></span></span>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="parameter"><b>Parameter: </b></label
-      ><input id="parameter" min="0" type="number" value="62000" /> 
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label for="parameter"><b>Parameter: </b></label><input id="parameter" min="0" type="number" value="62000" /> 
 	  <i><a href="parameterbonus_instructions_small.png" target="_blank">How to find Parameter value???</a></i>
       <hr />
-      <label for="starting"><b>Starting EP: </b></label
-      ><input id="starting" min="0" type="number" value="100000" />
+      <label for="starting"><b>Starting EP: </b></label><input id="starting" min="0" type="number" value="100000" />
       <span style="font-size: 32px; padding: 0px 10px 0px 10px">➔</span>
-      <label for="ending"><b>Target EP: </b></label
-      ><input id="ending" min="0" type="number" value="104000" />
+      <label for="ending"><b>Target EP: </b></label><input id="ending" min="0" type="number" value="104000" />
       <br />
       <br />
-      <button
-        id="calculate"
-        style="
+      <button id="calculate" style="
           background-color: #ccddff;
           margin-left: 20px;
           width: 240px;
           height: 32px;
           font-size: 18px;
-        "
-        onclick="test()"
-      >
+        " onclick="test()">
         Calculate
       </button>
     </fieldset>
@@ -82,6 +92,7 @@
 	<li class="translate19">Here's the Light on EX or Synchrogazer on Hard/EX difficulty are some of the highest scoring songs you can pick.</li>
 	<li class="translate20">When you get close to the score you need in Free Live, purposely fail the song. Notes are worth 10% their normal value when you have 0 health so you can finish easily.</li>
 	<li class="translate21">The <b>"Flexible Team"</b> option gives you the fastest park, but at the expense of more voltage.</li>
+  <li class="translate23">See any issues? Contact Mirby#5516 on D4DJ discord.</li>
 	</ul>
 
     <script>

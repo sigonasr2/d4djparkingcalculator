@@ -43,6 +43,29 @@ const MAXSTEPS= 10000
 	function toggleWarning() {
 		setTimeout(() => {  document.getElementById("warningparktext").style.visibility=document.getElementById("flexible").checked?"visible":"hidden"},100)
 	}
+
+	function toggleBonus() {
+		var bonusOptions = {};
+		bonusOptions['noBonus'] = ['0','20','40','60','80','100','120','140','160'];
+		bonusOptions['bonus'] = ['0','20','40','50','60','70','80','90','100','110','120','140','150','170','200'];
+
+		var isBonus = document.getElementById("teambonus").checked;
+		var bonusList = document.getElementById("bonus");
+		while (bonusList.options.length) {
+			bonusList.remove(0);
+		}
+		if (isBonus) {
+			for (var i = 0; i < bonusOptions['bonus'].length; i++) {
+				var entry = new Option(bonusOptions['bonus'][i] + "%", bonusOptions['bonus'][i] / 100);
+				bonusList.options.add(entry);
+			}
+		} else {
+			for (var i = 0; i < bonusOptions['noBonus'].length; i++) {
+				var entry = new Option(bonusOptions['noBonus'][i] + "%", bonusOptions['noBonus'][i] / 100);
+				bonusList.options.add(entry);
+			}
+		}
+	}
 	
 	/*function toggleBingo(){
 		setTimeout(() => {  document.getElementById("hideBingo").style.visibility=document.getElementById("Bingo").checked?"visible":"hidden"},100)
@@ -52,10 +75,12 @@ const MAXSTEPS= 10000
 		
 		var start = Math.abs(Math.max(0,Number(document.getElementById("starting").value)))
 		var end = Math.abs(Math.max(0,Number(document.getElementById("ending").value)))
-		var bonus = Number(document.getElementById("team").value)
+		var bonus = Number(document.getElementById("bonus").value)
+		var isBonus = document.getElementById("teambonus").checked
 		var parameter = Math.abs(Math.max(0,Number(document.getElementById("parameter").value)))
 		var type = (document.getElementById("Bingo").checked?"Bingo":
-		document.getElementById("Poker").checked?"Poker/Raid":
+		document.getElementById("Poker").checked?"Poker":
+		document.getElementById("Raid").checked?"Raid":
 		"Medley")
 		var flexible = document.getElementById("flexible").checked
 		//document.getElementById("console").value=flexible+"...\n\n"
@@ -64,7 +89,7 @@ const MAXSTEPS= 10000
 		var originalTarget=start
 		document.getElementById("console").value=""
 
-		var interval = (type=="Medley")?15000:10000
+		var interval = (type=="Medley")?15000:(type=="Poker")?4000:10000
 		
 		var maxscore = Math.floor(Math.abs(Math.min(5000000,Math.max(0,Number(document.getElementById("maxscore").value))))/interval)*interval
 
@@ -72,19 +97,54 @@ const MAXSTEPS= 10000
 			if (voltage>0) {
 				switch (type) {
 					case "Bingo":{
-						return voltage * Math.floor((1 + bonus)*Math.max(10,Math.floor(score/interval))+Math.floor((1 + bonus)*Math.floor(parameter/600)))
+						return voltage * Math.floor((1 + bonus) * (Math.max(10, Math.floor(score/interval)) + Math.floor(parameter/600)))
 					}break;
 					case "Medley":{
-						return voltage * Math.floor((1 + bonus)*(10+Math.floor(score/interval))+Math.floor((1 + bonus)*Math.floor(parameter/600)))
+						return voltage * Math.floor((1 + bonus) * (10 + Math.floor(score/interval) + Math.floor(parameter/600)))
 					}break;
-					case "Poker/Raid":{
-						return voltage * Math.floor((1 + bonus)*(50 + Math.floor(score/interval))+Math.floor((1 + bonus)*Math.floor(parameter/600)))
+					case "Poker":{
+						return voltage * Math.floor((1 + bonus) * (50 + Math.floor(score/interval) + Math.floor(parameter/600)))
+					}break;
+					case "Raid":{
+						return voltage * Math.floor((1 + bonus) * (50 + Math.floor(score/interval) + Math.floor(parameter/600)))
 					}break;
 				}
 			} else {
 				return Math.round(bonus*10)+10
 			}
 		}
+
+		// Generate a list of possible bonus values the user can have, based on the selected drop down value and whether extra 10% bonus is applied
+		var bonusOptions = [0,.2,.4,.5,.6,.7,.8,.9,1,1.1,1.2,1.4,1.5,1.7,2];
+		function GenerateBonusRange(bonusValue, isBonus) {
+			var array = [];
+			if (isBonus) {
+				for (var i=bonusValue;i>=0;i-=0.1) {
+					i = Math.round(i * 10) / 10 // Eliminate precision problems
+					if (bonusOptions.includes(i)) {
+						array.push(i)
+					}
+				}
+			} else {
+				for (var i=bonusValue;i>=0;i-=0.2) {
+					i = Math.round(i * 10) / 10
+					array.push(i)
+				}
+			}
+			return array
+		}
+
+		// During rehearsal, we can't use the odd bonus values, so return next lowest even value
+		function GetNextBonus(bonusValue) {
+			for (var i=bonusValue;i>=0;i-=0.1) {
+				i = Math.round(i * 10) / 10
+				if (bonusOptions.includes(i) && ((i*10)%2==0)) {
+					return i
+				}
+			}
+		}
+
+		var bonusRange = GenerateBonusRange(bonus, isBonus)
 
 		function EvenOdd(val) {
 			return val%2==0?"even":"odd"
@@ -212,25 +272,47 @@ const MAXSTEPS= 10000
 			}
 			var voltage=0
 			if ((end-start)%2!==0) {
-				return undefined
+				if (isBonus && (end-start >= 21)) {
+					var gain = 0
+					// If rehearsing with an odd gap, use 110% to flip back to even - only exception is 29, need to use 90%
+					if (end-start==29){
+						gain=19
+					} else {
+						gain=21
+					}
+					start+=gain
+					document.getElementById("console").value+=ConvertVariables(LANGUAGE("%REHEARSAL%"),{step:step++,percent:((gain-10)*10),epgain:gain,remaining:end-start})+"\n"
+					return true
+				} else {
+					return undefined
+				}				
 			}
 
 			if (end-start>(10+Math.round(tbonus*10))+10) {
 				var gain=(10+Math.round(tbonus*10))
+				if (EvenOdd(end-start)!=EvenOdd(gain)) {
+					tbonus = GetNextBonus(tbonus)
+					gain=(10+Math.round(tbonus*10))
+				}
 				start+=gain
 				//document.getElementById("console").value+="1)"
 				document.getElementById("console").value+=ConvertVariables(LANGUAGE("%REHEARSAL%"),{step:step++,percent:Math.round(tbonus*100),epgain:gain,remaining:end-start})+"\n"
 				/*"Step "+(step++)+") Use Rehearsal w/"+Math.round(tbonus*100)+"% team. EP +"+gain+". Remaining:"+(end-start)+" EP \n"*/
 				return true
 			} else 
-			for (var j=tbonus;j>=0;j-=0.2) {
+			for (var j of GenerateBonusRange(tbonus,isBonus)) {
 				result = TryMatchingRehearsal(j)
 				if (!result) {
 					return false
 				}
 			}
 			if (end-start>=20) {
-				var gain=end-start-10
+				var gain = 0
+				if (isBonus && ((end-start)==38 || (end-start)==36)) { // If bonus exists, and gap is 36 or 38, need to do special exception because bonus teams can't reach 160% or 180%
+					gain = 24
+				} else {
+					gain = end-start-10
+				}
 				start+=gain
 				//document.getElementById("console").value+="2)"
 				document.getElementById("console").value+=ConvertVariables(LANGUAGE("%REHEARSAL%"),{step:step++,percent:((gain-10)*10),epgain:gain,remaining:end-start})+"\n"
@@ -297,7 +379,7 @@ const MAXSTEPS= 10000
 			var result=true
 			if (maxscore>0) {
 				if (flexible) {
-					for (var j=bonus;j>=0;j-=0.2) {
+					for (var j of bonusRange) {
 						while (TryBiggestGain(j)) {
 							//document.getElementById("console").value+=+start+" EP"+"\n"
 						}
@@ -328,14 +410,15 @@ const MAXSTEPS= 10000
 					}
 				}
 			}
-			for (var j=bonus;j>=0;j-=0.2) {
+			for (var j of bonusRange) {
 				result = TryMatchingRehearsal(j)
 				if (!result) {
 					break;
 				}
 			}
 			if (result) {
-				for (var j=1.6;j>=0;j-=0.2) {
+				var maxBonus = (isBonus)?2.0:1.6 
+				for (var j of GenerateBonusRange(maxBonus,isBonus)) {
 					result = TryMatchingRehearsal(j)
 					if (!result) {
 						break;
@@ -344,25 +427,24 @@ const MAXSTEPS= 10000
 			}
 			if (result) {
 				do {
-						if (flexible) {
-							for (var j=bonus;j>=0;j-=0.2) {
-								var prevstart = 0
-								result = TryRehearsal(j)
-								if (start!==prevstart) {
-									break;
-								}
+					if (flexible) {
+						for (var j of bonusRange) {
+							var prevstart = 0
+							result = TryRehearsal(j)
+							if (start!==prevstart) {
+								break;
 							}
-						} else {
-							result = TryRehearsal(bonus)
 						}
+					} else {
+						result = TryRehearsal(bonus)
+					}
 				} while (result);
 			}
-
 
 			if (maxscore>0) {
 				if (flexible) {
 					for (var i=5;i>0;i--) {
-						for (var j=bonus;j>=0;j-=0.2) {
+						for (var j of bonusRange) {
 							while (result = TryEqualGain(i,j)) {
 								//document.getElementById("console").value+="Step "+(step++)+")"+start+" EP"+"\n"
 							}
@@ -379,7 +461,7 @@ const MAXSTEPS= 10000
 			
 			function ConvertEvent(str) {
 				switch (str) {
-					case "Poker/Raid":{
+					case "Poker":{
 						return LANGUAGE(4)
 					}break;
 					case "Bingo":{
@@ -387,6 +469,9 @@ const MAXSTEPS= 10000
 					}break;
 					case "Medley":{
 						return LANGUAGE(6)
+					}break;
+					case "Raid":{
+						return LANGUAGE(24)
 					}break;
 				}
 			}

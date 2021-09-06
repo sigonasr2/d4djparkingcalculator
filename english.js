@@ -9,14 +9,17 @@ function English(str) {
 			case 3:{ //Set up your options (Category Title)
 				return "Parking Configuration"
 			}break;
-			case 4:{ //Selection for event type: Poker/Raid
-				return "Poker/Raid"
+			case 4:{ //Selection for event type: Poker
+				return "Poker"
 			}break;
 			case 5:{ //Selection for event type: Bingo
 				return "Bingo"
 			}break;
 			case 6:{ //Selection for event type: Medley
 				return "Medley"
+			}break;
+			case 24:{ //Selection for event type: Raid
+				return "Raid"
 			}break;
 			case 7:{ //Label for team % selector (Include ":")
 				return "Event Team Bonus:"
@@ -62,6 +65,12 @@ function English(str) {
 			}break;
 			case 21:{ //Tip: The "Flexible Team" option gives you the fastest park, but at the expense of more voltage.
 				return "The <b>\"Flexible Team\"</b> option gives you the fastest park, but at the expense of more voltage."
+			}break;
+			case 22:{ //Tip: The maximum score you can get from playing a song using "Free Live" (Use 0 for Rehearsals Only)
+				return "The maximum score you can get from playing a song using <font color=\"aqua\">Free Live</font>.<br> <sub>(Use 0 for Rehearsals Only)</sub>"
+			}break;
+			case 23:{ //See any issues? Contact Mirby#5516 on D4DJ discord
+				return "See any issues? Contact Mirby#5516 on D4DJ discord"
 			}break;
 			case "%INITIAL%":{ //This message is the first thing to display for a normal calculation.
 				//Sample message:
