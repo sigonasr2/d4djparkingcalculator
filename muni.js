@@ -57,11 +57,17 @@ const MAXSTEPS= 10000
 		if (isBonus) {
 			for (var i = 0; i < bonusOptions['bonus'].length; i++) {
 				var entry = new Option(bonusOptions['bonus'][i] + "%", bonusOptions['bonus'][i] / 100);
+				if (i==bonusOptions['bonus'].length-1) {
+					entry.selected=true;	
+				}
 				bonusList.options.add(entry);
 			}
 		} else {
 			for (var i = 0; i < bonusOptions['noBonus'].length; i++) {
 				var entry = new Option(bonusOptions['noBonus'][i] + "%", bonusOptions['noBonus'][i] / 100);
+				if (i==bonusOptions['noBonus'].length-1) {
+					entry.selected=true;	
+				}
 				bonusList.options.add(entry);
 			}
 		}
