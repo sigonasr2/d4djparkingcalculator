@@ -85,7 +85,7 @@ const MAXSTEPS= 10000
 		var isBonus = document.getElementById("teambonus").checked
 		var parameter = Math.abs(Math.max(0,Number(document.getElementById("parameter").value)))
 		var type = (document.getElementById("Bingo").checked?"Bingo":
-		document.getElementById("Poker").checked?"Poker":
+		document.getElementById("Poker/Slots").checked?"Poker/Slots":
 		document.getElementById("Raid").checked?"Raid":
 		"Medley")
 		var flexible = document.getElementById("flexible").checked
@@ -95,7 +95,7 @@ const MAXSTEPS= 10000
 		var originalTarget=start
 		document.getElementById("console").value=""
 
-		var interval = (type=="Medley")?15000:(type=="Poker")?4000:10000
+		var interval = (type=="Medley")?15000:(type=="Poker/Slots")?4000:10000
 		
 		var maxscore = Math.floor(Math.abs(Math.min(5000000,Math.max(0,Number(document.getElementById("maxscore").value))))/interval)*interval
 
@@ -108,7 +108,7 @@ const MAXSTEPS= 10000
 					case "Medley":{
 						return voltage * Math.floor((1 + bonus) * (10 + Math.floor(score/interval) + Math.floor(parameter/600)))
 					}break;
-					case "Poker":{
+					case "Poker/Slots":{
 						return voltage * Math.floor((1 + bonus) * (50 + Math.floor(score/interval) + Math.floor(parameter/600)))
 					}break;
 					case "Raid":{
@@ -467,7 +467,7 @@ const MAXSTEPS= 10000
 			
 			function ConvertEvent(str) {
 				switch (str) {
-					case "Poker":{
+					case "Poker/Slots":{
 						return LANGUAGE(4)
 					}break;
 					case "Bingo":{

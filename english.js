@@ -9,8 +9,8 @@ function English(str) {
 			case 3:{ //Set up your options (Category Title)
 				return "Parking Configuration"
 			}break;
-			case 4:{ //Selection for event type: Poker
-				return "Poker"
+			case 4:{ //Selection for event type: Poker/Slots
+				return "Poker/Slots"
 			}break;
 			case 5:{ //Selection for event type: Bingo
 				return "Bingo"
