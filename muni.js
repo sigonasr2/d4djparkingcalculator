@@ -87,6 +87,7 @@ const MAXSTEPS= 10000
 		var type = (document.getElementById("Bingo").checked?"Bingo":
 		document.getElementById("Poker/Slots").checked?"Poker/Slots":
 		document.getElementById("Raid").checked?"Raid":
+		document.getElementById("RaidAnni").checked?"RaidAnni":
 		"Medley")
 		var flexible = document.getElementById("flexible").checked
 		//document.getElementById("console").value=flexible+"...\n\n"
@@ -95,7 +96,7 @@ const MAXSTEPS= 10000
 		var originalTarget=start
 		document.getElementById("console").value=""
 
-		var interval = (type=="Medley")?15000:(type=="Poker/Slots")?4000:10000
+		var interval = (type=="Medley")?15000:(type=="Poker/Slots")?4000:(type=="RaidAnni")?6000:10000
 		
 		var maxscore = Math.floor(Math.abs(Math.min(5000000,Math.max(0,Number(document.getElementById("maxscore").value))))/interval)*interval
 
@@ -113,6 +114,9 @@ const MAXSTEPS= 10000
 					}break;
 					case "Raid":{
 						return voltage * Math.floor((1 + bonus) * (50 + Math.floor(score/interval) + Math.floor(parameter/600)))
+					}break;
+					case "RaidAnni":{
+						return voltage * (300 + Math.floor(score/interval))
 					}break;
 				}
 			} else {
