@@ -22,7 +22,7 @@ function Japanese(str) {
 				return "Raid"
 			}break;
 			case 25:{ //Selection for event type: RaidAnni
-				return "RaidAnni"
+				return "Raid(Special)"
 			}break;
 			case 7:{ //Label for team % selector (Include ":")
 				return "Event Team Bonus:"

@@ -97,6 +97,11 @@ const MAXSTEPS= 10000
 		document.getElementById("console").value=""
 
 		var interval = (type=="Medley")?15000:(type=="Poker/Slots")?4000:(type=="RaidAnni")?6000:10000
+		var special = (type=="RaidAnni");
+		if (special) {
+			bonus = 0;
+			isBonus = false;
+		}
 		
 		var maxscore = Math.floor(Math.abs(Math.min(5000000,Math.max(0,Number(document.getElementById("maxscore").value))))/interval)*interval
 
@@ -336,7 +341,7 @@ const MAXSTEPS= 10000
 				document.getElementById("console").value+=ConvertVariables(LANGUAGE("%REHEARSAL%"),{step:step++,percent:0,epgain:gain,remaining:end-start})+"\n"
 				/*"Step "+(step++)+") Use Rehearsal w/0% team. EP +"+gain+". Remaining:"+(end-start)+" EP \n"*/
 				return false
-			} else 
+			} else if (!special)
 			{
 				var gain=end-start
 				if (((gain-10)*10)>=0) {
@@ -427,7 +432,10 @@ const MAXSTEPS= 10000
 				}
 			}
 			if (result) {
-				var maxBonus = (isBonus)?2.0:1.6 
+				var maxBonus = (isBonus)?2.0:1.6;
+				if (special) {
+					maxBonus = 0;
+				}
 				for (var j of GenerateBonusRange(maxBonus,isBonus)) {
 					result = TryMatchingRehearsal(j)
 					if (!result) {
@@ -483,6 +491,9 @@ const MAXSTEPS= 10000
 					case "Raid":{
 						return LANGUAGE(24)
 					}break;
+					case "RaidAnni":{
+						return LANGUAGE(25)
+					}break;
 				}
 			}
 
@@ -495,8 +506,6 @@ const MAXSTEPS= 10000
 				start:originalTarget,target:end,event:ConvertEvent(type),steps:(step-1),voltage:flameCount})+"\n\n"+document.getElementById("console").value
 				/*"Calculating from "+originalTarget+" to "+end+" for event type "+type+"...\n\t(All games are done in Free Live)\n\nFound a park! "+(step-1)+" step"+Plural(step-1)+" and "+flameCount+" voltage required!\n\n"+document.getElementById("console").value*/
 			}
-			//document.getElementById("console").value+="Step "+(step++)+")"+start+" EP"+"\n"
-			step++
 		}
 	}
  
